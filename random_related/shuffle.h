@@ -10,6 +10,7 @@
 
 #include <cstring>
 #include <cstdlib>
+#include "C-utility-library.config.h"
 
 namespace PROJECT_NAMESPACE {
 
