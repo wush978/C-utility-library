@@ -2,12 +2,14 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <ctime>
 #include "../random_related/shuffle.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
+	srand(time(NULL));
 	if (argc != 2) {
 		cerr << "Usage: shuffle-console.exe <string to shuffle>" << endl;
 		return 1;
