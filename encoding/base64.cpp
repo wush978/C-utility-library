@@ -82,7 +82,67 @@ const std::string base64_encode(const std::string& src) {
 }
 
 const std::string base64_decode(const std::string& src) {
+	std::string::size_type length(src.size());
+
 	std::string retval;
+	retval.resize(length, 0);
+	int ch, i(0), j(0), k;
+
+	const unsigned char *current(const_unsigned_char_cast(&src[0]));
+	unsigned char *result(unsigned_char_cast(&retval[0]));
+
+	while( length-- > 0 )
+	{
+		ch = *current++;
+
+		if ( ch == base64_pad ) {
+			if (*current != '=' && (i%4) == 1) {
+				throw std::invalid_argument("Input is an invalid base64 encoded string");
+			}
+			continue;
+		}
+
+		ch = base64_reverse_table[ch];
+		if (ch == -1) {
+			continue;
+		}
+		else if (ch == -2) {
+			throw std::invalid_argument("Input is an invalid base64 encoded string");
+		}
+
+		switch (i % 4)
+		{
+		case 0:
+			result[j] = ch << 2;
+			break;
+		case 1:
+			result[j++] |= ch >> 4;
+			result[j] = (ch & 0x0f) << 4;
+			break;
+		case 2:
+			result[j++] |= ch >>2;
+			result[j] = (ch & 0x03) << 6;
+			break;
+		case 3:
+			result[j++] |= ch;
+			break;
+		}
+		i++;
+	}
+
+	k = j;
+	if (ch == base64_pad) {
+		switch(i % 4)
+		{
+		case 1:
+			throw std::invalid_argument("Input is an invalid base64 encoded string");
+		case 2:
+			k++;
+		case 3:
+			result[k] = 0;
+		}
+	}
+	retval.resize(j);
 	return retval;
 }
 
