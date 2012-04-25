@@ -1,3 +1,3 @@
 
-project( base64 )
-add_library( base64 STATIC base64.cpp )
+project( encoding )
+add_library( encoding STATIC base64.cpp )

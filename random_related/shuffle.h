@@ -13,7 +13,7 @@
 
 namespace PROJECT_NAMESPACE {
 
-void shuffle(void* begin, size_t length, size_t size = 1);
+void shuffle(char* begin, size_t length, size_t size = 1);
 
 }
 

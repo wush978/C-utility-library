@@ -14,7 +14,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	if (argc != 3) {
-		cout << "Usage: base64-test.exe encode|decode <encoded file path>" << endl;
+		cout << "Usage: base64-console.exe encode|decode <encoded file path>" << endl;
 		return 0;
 	}
 

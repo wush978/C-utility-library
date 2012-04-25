@@ -9,10 +9,10 @@
 
 namespace PROJECT_NAMESPACE {
 
-void shuffle(void* begin, size_t length, size_t size = 1)
+void shuffle(char* begin, size_t length, size_t size)
 {
     size_t switch_index;
-    void* temp = malloc(size);
+    char* temp = reinterpret_cast<char*>(malloc(size));
     while( --length )
     {
     	switch_index = rand() % (length + 1);

@@ -21,7 +21,7 @@ configure_file (
 include_directories( ${CMAKE_BINARY_DIR} )
 
 add_subdirectory( encoding )
-# add_subdirectory( utility )
+add_subdirectory( random_related )
 add_subdirectory( console )
 
 #

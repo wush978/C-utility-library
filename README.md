@@ -5,10 +5,13 @@
 *	base64
 *	bin2hex, hex2bin
 
-## utility ##
+## random_related ##
 
 *	shuffle
 
-## test ##
+## console ##
+
+*	base64-console
+*	shuffle-console
 
 
