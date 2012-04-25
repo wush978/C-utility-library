@@ -1,8 +1,13 @@
 cmake_minimum_required( VERSION 2.8 )
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+project( c-utility-library )
+
+if (NOT DEFINED IS_SET_OUTPUT_DIRECTORY)
+    set(IS_SET_OUTPUT_DIRECTORY 1)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+endif()
 
 if (DEFINED PROJECT_NAMESPACE)
 else()
@@ -11,9 +16,9 @@ endif()
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/C-utility-library.config.h.in"
-  "${PROJECT_BINARY_DIR}/C-utility-library.config.h"
+  "${CMAKE_BINARY_DIR}/C-utility-library.config.h"
 )
-include_directories( ${PROJECT_BINARY_DIR} )
+include_directories( ${CMAKE_BINARY_DIR} )
 
 add_subdirectory( encoding )
 # add_subdirectory( utility )
