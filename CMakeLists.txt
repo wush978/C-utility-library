@@ -61,7 +61,7 @@ if(ENABLE_SQLITE3)
     if(UNIX)
         set( SQLITE3_EXE "${CMAKE_BINARY_DIR}/bin/sqlite3-console" )
         add_test( sqlite3-bin ${SQLITE3_EXE} test.db )
-        add_test( sqlite3-check sqlite3 test.db "<" check.sql )
+        add_test( sqlite3-check sqlite3 test.db ".tables" )
         set_tests_properties( sqlite3-check
             PROPERTIES PASS_REGULAR_EXPRESSION "test_table"
             ) 
