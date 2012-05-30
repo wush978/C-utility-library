@@ -11,9 +11,8 @@ endif()
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} )
 
-if (DEFINED PROJECT_NAMESPACE)
-else()
-  set( PROJECT_NAMESPACE WUSH_UTILITY )
+if(ENABLE_LOG)
+    add_definitions(-DENABLE_LOG)
 endif()
 
 if(ENABLE_SQLITE3)
@@ -52,17 +51,25 @@ set_tests_properties( base64_decode1
 ) 
 
 if(ENABLE_SQLITE3)
+    file( COPY "${CMAKE_CURRENT_SOURCE_DIR}/data/check.sql"
+        DESTINATION ${CMAKE_BINARY_DIR}
+        )
     if(WIN32)
         set( SQLITE3_EXE "${CMAKE_BINARY_DIR}/bin/sqlite3-console.exe" )
+        message( FATAL_ERROR "TODO" )
     endif()
     if(UNIX)
         set( SQLITE3_EXE "${CMAKE_BINARY_DIR}/bin/sqlite3-console" )
-        add_test( sqlite3-1 ${SQLITE3_EXE} test.db )
-        add_test( sqlite3-2 chmod "u-r" test.db )
-        add_test( sqlite3-3 ${SQLITE3_EXE} test.db )
-        set_tests_properties( sqlite3-3
+        add_test( sqlite3-bin ${SQLITE3_EXE} test.db )
+        add_test( sqlite3-check sqlite3 test.db "<" check.sql )
+        set_tests_properties( sqlite3-check
+            PROPERTIES PASS_REGULAR_EXPRESSION "test_table"
+            ) 
+        add_test( sqlite3-chmod chmod "u-r" test.db )
+        add_test( sqlite3-fail ${SQLITE3_EXE} test.db )
+        set_tests_properties( sqlite3-fail
             PROPERTIES PASS_REGULAR_EXPRESSION "Unable to open the database file"
             )
-        add_test( sqlite3-4 rm test.db )
+        add_test( sqlite3-clean rm test.db )
     endif()
 endif()
