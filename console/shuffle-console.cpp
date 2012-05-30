@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	std::string src(argv[1]);
-	PROJECT_NAMESPACE::shuffle(&src[0], src.size());
+	Random::shuffle(&src[0], src.size());
 	cout << src << endl;
 	return 0;
 }

@@ -38,13 +38,13 @@ int main(int argc, char* argv[])
 	fclose(infile);
 
 	if (!option.compare("encode")) {
-		string retval(PROJECT_NAMESPACE::base64_encode(src));
+		string retval(Encoding::base64_encode(src));
 		cout << retval << endl;
 	}
 	else {
 		if (!option.compare("decode")) {
 			try {
-				cout << PROJECT_NAMESPACE::base64_decode(src) << endl;
+				cout << Encoding::base64_decode(src) << endl;
 			}
 			catch (std::invalid_argument &e) {
 				cerr << e.what() << endl;
