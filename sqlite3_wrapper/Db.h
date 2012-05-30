@@ -12,6 +12,9 @@
 
 #include "sqlite3.h"
 #include "exception.h"
+#ifdef ENABLE_LOG
+#include <fstream>
+#endif
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -20,7 +23,11 @@ namespace SQLite3 {
 
 class Db {
 
+#ifdef ENABLE_LOG
+	std::fstream log;
+#endif
 	sqlite3* db_handle;
+
 
 public:
 
@@ -58,7 +65,25 @@ private:
 	Db(const Db&);
 	const Db& operator=(const Db&);
 
+	/**
+	 * Perform sqlite3_step and sqlite3_finalize for a query
+	 */
+	void query(const sqlite3_stmt*);
+
+	/**
+	 * Convert data_type to string
+	 */
 	static const char* getTypeName(const DataType data_type);
+
+	/**
+	 * Check error
+	 */
+	inline void check(int src) {
+		int error_code(src);
+		if (error_code != SQLITE_OK) {
+			throw exception(db_handle);
+		}
+	}
 };
 
 
