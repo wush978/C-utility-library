@@ -7,7 +7,7 @@
 
 #include "hex.h"
 
-namespace PROJECT_NAMESPACE {
+namespace Encoding {
 
 const static char bin2hextab[] = "0123456789abcdef";
 const static int hex2bintab[] = {

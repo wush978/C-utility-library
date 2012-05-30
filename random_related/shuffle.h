@@ -10,9 +10,8 @@
 
 #include <cstring>
 #include <cstdlib>
-#include "C-utility-library.config.h"
 
-namespace PROJECT_NAMESPACE {
+namespace Random {
 
 void shuffle(char* begin, size_t length, size_t size = 1);
 

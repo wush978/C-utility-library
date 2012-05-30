@@ -12,9 +12,8 @@
 
 #include <stdexcept>
 #include <string>
-#include "C-utility-library.config.h"
 
-namespace PROJECT_NAMESPACE {
+namespace Encoding {
 
 const std::string
 base64_decode(const std::string& src);

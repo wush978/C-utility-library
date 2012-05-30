@@ -9,7 +9,7 @@
 
 #include "base64.h"
 
-namespace PROJECT_NAMESPACE {
+namespace Encoding {
 
 static const char base64_table[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 		'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
