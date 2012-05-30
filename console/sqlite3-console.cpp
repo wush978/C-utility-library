@@ -19,7 +19,8 @@ int main(int argc, char* argv[]) {
 		column_def[1].column_type = Db::Text;
 		column_def[2].column_label.assign("test2");
 		column_def[2].column_type = Db::Blob;
-		db.createTable("test_table", column_def, false);
+		Db::Rows retval;
+		db.createTable("test_table", column_def, false, retval);
 	}
 	catch (SQLite3::exception &e) {
 		std::cout << "An exception occurred:" << std::endl;

@@ -14,5 +14,5 @@ if(ENABLE_SQLITE3)
     
     include_directories( ${SQLITE3_INCLUDE_DIRS} )
     add_executable( sqlite3-console sqlite3-console.cpp )
-    target_link_libraries( sqlite3-console sqlite3_wrapper ${SQLITE3_LIBRARIES} )
+    target_link_libraries( sqlite3-console sqlite3_wrapper encoding ${SQLITE3_LIBRARIES} )
 endif()

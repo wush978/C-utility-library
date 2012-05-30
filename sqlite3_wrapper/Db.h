@@ -14,6 +14,7 @@
 #include "exception.h"
 #ifdef ENABLE_LOG
 #include <fstream>
+#include "../encoding/hex.h"
 #endif
 #include <stdexcept>
 #include <string>
@@ -39,11 +40,25 @@ public:
 		Null = SQLITE_NULL,
 	} DataType;
 
-
 	typedef struct {
 		DataType column_type;
 		std::string column_label;
 	} ColumnDef;
+
+	typedef struct {
+		sqlite3_int64 _integer;
+		double _float;
+		std::string _buff;
+	} Data;
+
+	typedef struct {
+		DataType data_type;
+		Data data;
+	} Entry;
+
+	typedef std::vector<Entry> Row;
+
+	typedef std::vector<Row> Rows;
 
 	/**
 	 * Open the file filename
@@ -57,7 +72,8 @@ public:
 	void createTable(
 			const std::string& table_name,
 			const std::vector<ColumnDef>& column_def,
-			const bool is_temporary = false
+			const bool is_temporary,
+			Rows& retval
 			);
 
 
@@ -68,13 +84,19 @@ private:
 	/**
 	 * Perform sqlite3_step and sqlite3_finalize for a query
 	 */
-	void query(const sqlite3_stmt*);
+	void query(sqlite3_stmt*, Rows& retval);
+
+	/**
+	 * Retrieve the result after receive SQLITE_ROW from sqlite3_step()
+	 */
+	void getSQLResult(sqlite3_stmt*, int col_size, Rows& retval);
 
 	/**
 	 * Convert data_type to string
 	 */
 	static const char* getTypeName(const DataType data_type);
 
+	const DataType int2datatype(const int src);
 	/**
 	 * Check error
 	 */
@@ -84,6 +106,7 @@ private:
 			throw exception(db_handle);
 		}
 	}
+
 };
 
 
