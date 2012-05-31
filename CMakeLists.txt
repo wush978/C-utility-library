@@ -12,6 +12,7 @@ endif()
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} )
 
 if(ENABLE_LOG)
+    message( STATUS "ENABLE_LOG" )
     add_definitions(-DENABLE_LOG)
 endif()
 
@@ -19,6 +20,8 @@ if(ENABLE_SQLITE3)
     find_package( SQLite3 REQUIRED )
 endif()
 
+find_package( Boost REQUIRED date_time )
+add_subdirectory( logger )
 add_subdirectory( encoding )
 add_subdirectory( random_related )
 add_subdirectory( sqlite3_wrapper )

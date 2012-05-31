@@ -11,16 +11,15 @@ int main(int argc, char* argv[]) {
 	try {
 		using namespace SQLite3;
 		Db db(argv[1]);
-		std::vector<Db::ColumnDef> column_def;
-		column_def.resize(3);
-		column_def[0].column_label.assign("test0");
-		column_def[0].column_type = Db::Integer;
-		column_def[1].column_label.assign("test1");
-		column_def[1].column_type = Db::Text;
-		column_def[2].column_label.assign("test2");
-		column_def[2].column_type = Db::Blob;
-		Db::Rows retval;
-		db.createTable("test_table", column_def, false, retval);
+		TableDef table_def;
+		table_def.resize(3);
+		table_def[0].column_label.assign("test0");
+		table_def[0].column_type = Integer;
+		table_def[1].column_label.assign("test1");
+		table_def[1].column_type = Text;
+		table_def[2].column_label.assign("test2");
+		table_def[2].column_type = Blob;
+		db.createTable("test_table", table_def, false);
 	}
 	catch (SQLite3::exception &e) {
 		std::cout << "An exception occurred:" << std::endl;
