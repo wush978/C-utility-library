@@ -10,55 +10,20 @@
 #ifndef DB_H_
 #define DB_H_
 
-#include "sqlite3.h"
-#include "exception.h"
-#ifdef ENABLE_LOG
-#include <fstream>
 #include "../encoding/hex.h"
-#endif
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "sqlite3_wrapper.h"
 
 namespace SQLite3 {
 
 class Db {
 
-#ifdef ENABLE_LOG
-	std::fstream log;
-#endif
 	sqlite3* db_handle;
-
 
 public:
 
-	typedef enum{
-		Integer = SQLITE_INTEGER,
-		Float = SQLITE_FLOAT,
-		Text = SQLITE_TEXT,
-		Blob = SQLITE_BLOB,
-		Null = SQLITE_NULL,
-	} DataType;
-
-	typedef struct {
-		DataType column_type;
-		std::string column_label;
-	} ColumnDef;
-
-	typedef struct {
-		sqlite3_int64 _integer;
-		double _float;
-		std::string _buff;
-	} Data;
-
-	typedef struct {
-		DataType data_type;
-		Data data;
-	} Entry;
-
-	typedef std::vector<Entry> Row;
-
-	typedef std::vector<Row> Rows;
 
 	/**
 	 * Open the file filename
@@ -69,34 +34,26 @@ public:
 	 */
 	virtual ~Db();
 
+	/**
+	 * Only execute SQL without return value
+	 */
+	void exec(std::string& sql);
+
+	/**
+	 * execute SQL and put the result into retval
+	 */
+	void exec(std::string& sql, SQLite3::Table& retval);
+
 	void createTable(
 			const std::string& table_name,
-			const std::vector<ColumnDef>& column_def,
-			const bool is_temporary,
-			Rows& retval
+			const TableDef& column_def,
+			const bool is_temporary
 			);
-
 
 private:
 	Db(const Db&);
 	const Db& operator=(const Db&);
 
-	/**
-	 * Perform sqlite3_step and sqlite3_finalize for a query
-	 */
-	void query(sqlite3_stmt*, Rows& retval);
-
-	/**
-	 * Retrieve the result after receive SQLITE_ROW from sqlite3_step()
-	 */
-	void getSQLResult(sqlite3_stmt*, int col_size, Rows& retval);
-
-	/**
-	 * Convert data_type to string
-	 */
-	static const char* getTypeName(const DataType data_type);
-
-	const DataType int2datatype(const int src);
 	/**
 	 * Check error
 	 */
