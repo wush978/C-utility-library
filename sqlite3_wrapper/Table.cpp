@@ -12,12 +12,12 @@ namespace SQLite3 {
 
 static const boost::regex check_column_name("^(\\w{1})[[:alnum:]]*$");
 
-Table::Table(const std::string& table_name) {
-	Table(table_name, false);
+Table::Table(const std::string& table_name)
+: temporary(false), name(table_name), pk_index(0), is_auto_pk(true) {
 }
 
 Table::Table(const std::string& table_name, const bool is_temporary)
-: temporary(is_temporary), name(table_name), pk_index(0) {
+: temporary(is_temporary), name(table_name), pk_index(0), is_auto_pk(true) {
 }
 
 Table::~Table() {

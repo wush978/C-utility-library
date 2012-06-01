@@ -18,6 +18,7 @@ class Table {
 	bool temporary;
 	std::string name;
 	size_t pk_index;
+	bool is_auto_pk;
 	std::vector<std::string> column_name;
 	std::vector<DataType> column_type;
 public:
@@ -26,7 +27,10 @@ public:
 	virtual ~Table();
 
 	// function for user
-	void setPK(const size_t src) { pk_index = src; }
+	void setPK(const size_t src) {
+		is_auto_pk = false;
+		pk_index = src;
+	}
 	/**
 	 * Check if Table definition is valid or not
 	 */
@@ -34,9 +38,11 @@ public:
 
 	// function to create SQL
 	const bool isTemporary() const { return temporary; };
+	const std::string& getName() const { return name; }
+	const size_t getPK() const { return pk_index; }
+	const bool isAutoPK() const { return is_auto_pk; }
 	const std::vector<std::string>& getColumnName() const { return column_name; }
 	const std::vector<DataType>& getColumnType() const { return column_type; }
-	const size_t getPK() const { return pk_index; }
 
 private:
 	Table(const Table&);

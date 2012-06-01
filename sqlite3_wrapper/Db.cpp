@@ -32,6 +32,28 @@ void Db::createTable(const Table& table) {
 	if (!table.check()) {
 		throw std::invalid_argument("The Table definition is invalid");
 	}
+	sql.append("CREATE ");
+	if(table.isTemporary()) {
+		sql.append("TEMPORARY ");
+	}
+	sql.append(" TABLE ").append(table.getName()).append("( ");
+	if (table.isAutoPK()) {
+		sql.append("id INTEGER PRIMARY KEY ASC, ");
+	}
+	const std::vector<std::string>& column_name(table.getColumnName());
+	const std::vector<DataType>& column_type(table.getColumnType());
+	for(size_t i; i < column_name.size();i++) {
+		sql.append(column_name[i]). append(" ").append(getDataTypeName(column_type[i])).append(" ");
+		if (i == table.getPK() & !table.isAutoPK()) {
+			sql.append("PRIMARY KEY, ");
+		}
+		else {
+			sql.append(", ");
+		}
+	}
+	sql.resize(sql.size() - 2);
+	sql.append(");");
+	this->exec(sql);
 }
 //void Db::createTable(
 //		const std::string& table_name,
