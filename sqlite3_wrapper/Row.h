@@ -10,22 +10,37 @@
 
 #include <cstring>
 #include <vector>
+#include "Table.h"
 #include "sqlite3_wrapper.h"
 
 namespace SQLite3 {
 
-
-typedef struct {
-	DataType data_type;
-	void* data;
-} Entry;
+class Table;
 
 class Row {
-	std::vector<Entry> _row;
+	const Table& table;
+	const std::vector<DataType>& data_type;
+	std::vector<size_t> hash;
+	std::vector<sqlite3_int64> data_int;
+	std::vector<double> data_float;
+	std::vector<std::string> data_string;
+	size_t assign_index;
 public:
-	Row();
 	virtual ~Row();
-	void push_back(const void* data, const int data_size, const DataType data_type);
+
+
+private:
+	friend class Table;
+	Row(const Table& src);
+
+	Row(const Row&);
+	const Row& operator=(const Row& src);
+
+
+
+friend Row& operator<<(Row& dst, const std::string& src);
+friend Row& operator<<(Row& dst, const sqlite3_int64 src);
+friend Row& operator<<(Row& dst, const double src);
 };
 
 typedef std::vector<Row> Rows;

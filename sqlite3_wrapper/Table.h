@@ -10,9 +10,12 @@
 
 #include <string>
 #include <vector>
+#include "Row.h"
 #include "sqlite3_wrapper.h"
 
 namespace SQLite3 {
+
+class Row;
 
 class Table {
 	bool temporary;
@@ -21,6 +24,8 @@ class Table {
 	bool is_auto_pk;
 	std::vector<std::string> column_name;
 	std::vector<DataType> column_type;
+	std::vector<Row*> rows;
+	bool is_mutable;
 public:
 	Table(const std::string& table_name);
 	Table(const std::string& table_name, const bool is_temporary);
@@ -35,6 +40,9 @@ public:
 	 * Check if Table definition is valid or not
 	 */
 	bool check() const;
+	void lock() { is_mutable = false; }
+	void assertMutable() const;
+	void assertNonMutable() const;
 
 	// function to create SQL
 	const bool isTemporary() const { return temporary; };

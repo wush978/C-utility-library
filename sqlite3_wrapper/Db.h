@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include "sqlite3_wrapper.h"
+#include "Table.h"
 
 namespace SQLite3 {
 

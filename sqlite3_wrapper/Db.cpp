@@ -28,6 +28,7 @@ void Db::exec(std::string& sql) {
 }
 
 void Db::createTable(const Table& table) {
+	table.assertNonMutable();
 	std::string sql;
 	if (!table.check()) {
 		throw std::invalid_argument("The Table definition is invalid");
