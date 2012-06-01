@@ -33,9 +33,10 @@ public:
 	bool check() const;
 
 	// function to create SQL
-	const std::vector<std::string>& getColumnName() { return column_name; }
-	const std::vector<DataType>& getColumnType() { return column_type; }
-	const size_t getPK() { return pk_index; }
+	const bool isTemporary() const { return temporary; };
+	const std::vector<std::string>& getColumnName() const { return column_name; }
+	const std::vector<DataType>& getColumnType() const { return column_type; }
+	const size_t getPK() const { return pk_index; }
 
 private:
 	Table(const Table&);
