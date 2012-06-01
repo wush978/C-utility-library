@@ -44,11 +44,7 @@ public:
 	 */
 	void exec(std::string& sql, SQLite3::Table& retval);
 
-	void createTable(
-			const std::string& table_name,
-			const TableDef& column_def,
-			const bool is_temporary
-			);
+	void createTable(const Table& table);
 
 private:
 	Db(const Db&);

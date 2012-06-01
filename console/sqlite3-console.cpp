@@ -11,18 +11,17 @@ int main(int argc, char* argv[]) {
 	try {
 		using namespace SQLite3;
 		Db db(argv[1]);
-		TableDef table_def;
-		table_def.resize(3);
-		table_def[0].column_label.assign("test0");
-		table_def[0].column_type = Integer;
-		table_def[1].column_label.assign("test1");
-		table_def[1].column_type = Text;
-		table_def[2].column_label.assign("test2");
-		table_def[2].column_type = Blob;
-		db.createTable("test_table", table_def, false);
+		Table table("test_table");
+		table << "id" << "test2" << "test3";
+		table << SQLITE_INTEGER << SQLITE_TEXT << SQLITE_BLOB;
+		db.createTable(table);
 	}
 	catch (SQLite3::exception &e) {
 		std::cout << "An exception occurred:" << std::endl;
+		std::cout << e.what() << std::endl;
+		return 1;
+	}
+	catch (std::invalid_argument &e) {
 		std::cout << e.what() << std::endl;
 		return 1;
 	}

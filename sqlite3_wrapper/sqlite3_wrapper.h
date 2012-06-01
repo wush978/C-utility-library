@@ -10,8 +10,6 @@
 
 #include "sqlite3.h"
 
-#include <vector>
-
 #include "exception.h"
 #ifdef ENABLE_LOG
 #include "../logger/Logger.h"
@@ -30,16 +28,6 @@ namespace SQLite3 {
 		Blob = SQLITE_BLOB,
 		Null = SQLITE_NULL,
 	} DataType;
-
-
-	typedef struct {
-		DataType column_type;
-		std::string column_label;
-	} ColumnDef;
-
-
-	typedef std::vector<ColumnDef> TableDef;
-
 
 	DataType getDataType(const int src);
 

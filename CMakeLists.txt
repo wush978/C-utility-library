@@ -18,9 +18,11 @@ endif()
 
 if(ENABLE_SQLITE3)
     find_package( SQLite3 REQUIRED )
+    find_package( Boost REQUIRED COMPONENTS date_time regex )
+else()
+    find_package( Boost REQUIRED COMPONENTS date_time )
 endif()
 
-find_package( Boost REQUIRED date_time )
 add_subdirectory( logger )
 add_subdirectory( encoding )
 add_subdirectory( random_related )

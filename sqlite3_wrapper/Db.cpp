@@ -27,22 +27,28 @@ void Db::exec(std::string& sql) {
 	this->check(sqlite3_exec(db_handle, sql.c_str(), NULL, NULL, NULL));
 }
 
-void Db::createTable(
-		const std::string& table_name,
-		const TableDef& column_def,
-		const bool is_temporary
-		) {
-	std::string sql_statement("CREATE ");
-	if (is_temporary) {
-		sql_statement.append("TEMPORARY ");
+void Db::createTable(const Table& table) {
+	std::string sql;
+	if (!table.check()) {
+		throw std::invalid_argument("The Table definition is invalid");
 	}
-	sql_statement.append("TABLE ").append(table_name).append("( id INTEGER PRIMARY KEY ASC, ");
-	for(std::vector<ColumnDef>::const_iterator i(column_def.begin()); i != column_def.end();i++) {
-		sql_statement.append(i->column_label).append(" ").append(getDataTypeName(i->column_type)).append(", ");
-	}
-	sql_statement.resize(sql_statement.size() - 2);
-	sql_statement.append(");");
-	this->exec(sql_statement);
 }
+//void Db::createTable(
+//		const std::string& table_name,
+//		const TableDef& column_def,
+//		const bool is_temporary
+//		) {
+//	std::string sql_statement("CREATE ");
+//	if (is_temporary) {
+//		sql_statement.append("TEMPORARY ");
+//	}
+//	sql_statement.append("TABLE ").append(table_name).append("( id INTEGER PRIMARY KEY ASC, ");
+//	for(std::vector<ColumnDef>::const_iterator i(column_def.begin()); i != column_def.end();i++) {
+//		sql_statement.append(i->column_label).append(" ").append(getDataTypeName(i->column_type)).append(", ");
+//	}
+//	sql_statement.resize(sql_statement.size() - 2);
+//	sql_statement.append(");");
+//	this->exec(sql_statement);
+//}
 
 } /* namespace SQLite3 */
