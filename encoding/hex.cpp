@@ -33,11 +33,12 @@ hex_decode(const std::string& src) {
 	if (src.size() % 2) {
 		throw std::invalid_argument("hex_decode: the input is not a valid hex code");
 	}
-	std::string retval(0, src.size()/2);
+	std::string retval;
+	retval.resize(src.size()/2);
 	unsigned char *pretval( reinterpret_cast<unsigned char*>(&retval[0]) );
 	const unsigned char *psrc( reinterpret_cast<const unsigned char*>(&src[0]) );
 	int first, second;
-	for (size_t i = 0; i < retval.size()/2; i++) {
+	for (size_t i = 0; i < src.size()/2; i++) {
 		first = hex2bintab[*psrc++];
 		if (first == -1) {
 			throw std::invalid_argument("hex_decode: the input is not a valid hex code");
